@@ -1,0 +1,26 @@
+<workflow-app name="sample-wf" xmlns="uri:oozie:workflow:0.1">
+   <start to = “myfirstjavajob”/>
+    <action name="myfirstjavajob">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <prepare>
+                <delete path=”${outputDir}”/>
+            </prepare>
+            <configuration>
+                <property>
+                    <name>mapred.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <jar> /oozie/java-demo/oozijava.jar</jar>                      // jar path in hdfs
+            <main-class>org.oozie.java.Simplejava</main-class>   //java class name which contains a main method
+        </java>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+   <kill name="kill">
+        <message>Map/Reduce failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+<end name="end"/>
+</workflow-app>
