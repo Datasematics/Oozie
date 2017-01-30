@@ -1,1 +1,26 @@
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="Series -workflow">
+   <start to="firstjob-wf"/>
+    <action name="firstjob-wf">
+       <map-reduce>
+      <job-tracker>${nameNode}</job-tracker>
+      <name-node>${jobTracker}</name-node>
+             <Job-xml>job1.xml</job-xml>    
+        </map-reduce>
+      <ok to="2ndjob-wf"/>
+      <error to="kill"/>
+     </action>
+   <action name="2ndjob-wf">
+        <map-reduce>
+        <job-tracker>${nameNode}</job-tracker>
+       <name-node>${jobTracker}</name-node>
+        <Job-xml>job2.xml</job-xml>   
+         </map-reduce>
+       <ok to="end"/>
+      <error to="kill"/>
+   </action>
+<kill name="kill">
+        <message>Map/Reduce failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+<end name="end"/>
+</workflow-app>
 
