@@ -1,1 +1,18 @@
 
+<workflow-app xmlns="uri:oozie:workflow:0.2" name="hive-workflow" >
+  <start to="hive-wf"/>  
+   <action name="hive-wf" >
+     <hive xmlns="uri:oozie:hive-action:0.4" >
+       <job-tracker>${jobTracker}</job-tracker>
+       <name-node>${nameNode}</name-node>
+       <script>/hivescript.hql</script>
+       <job-xml>/hive-site.xml</job-xml>
+     </hive>
+     <ok to = "end"/>
+      <error to = "kill"/>
+    </action>  
+    <kill name = "kill">
+      <message>Map/reduce failled</message>
+     </kill>
+    <end name = "end"/>  
+</workflow-app>
