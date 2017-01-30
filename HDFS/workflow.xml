@@ -1,0 +1,26 @@
+<workflow-app name="hdfs-workflow" xmlns="uri:oozie:workflow:0.5">
+      <start to="fs-wf"/>
+     <action name="fs-wf">
+        <fs>
+         <name-node>${nameNode}</name-node>
+           <configuration>
+             <property>
+               <name>some.property</name>
+               <value>some.value</value>
+             </property>
+           </configuration>
+            <delete path='[PATH]'/
+            <mkdir path='[PATH]'
+            <move source='[SOURCE-PATH]' target='[TARGET-PATH]'/>
+            <chmod path='[PATH]' permissions='[PERMISSIONS]' dir-files='false' />
+            <touchz path='[PATH]' />
+            <chgrp path='[PATH]' group='[GROUP]' dir-files='false' />
+        </fs>
+        <ok to="end”/>
+        <error to="kill"/>
+    </action>
+    <kill name="kill">
+        <message>Map/Reduce failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+  <end name="end"/>
+</workflow-app>
