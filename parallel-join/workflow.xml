@@ -1,0 +1,39 @@
+<workflow-app  name="Forkjoin-wf" xmlns="uri:oozie:workflow:0.1">
+   <start to="fork-node"/>
+    <fork name="fork-node">
+        <path start="firstparalleljob"/>
+        <path start="secondparalleljob"/>
+    </fork>
+    <action name="firstparalleljob">
+        <map-reduce>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <job-xml>job1.xml</job-xml>
+        </map-reduce>
+        <ok to="join-node"/>
+        <error to="kill"/>
+    </action>
+    <action name="secondparalleljob">
+        <map-reduce>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <job-xml>job2.xml</job-xml>
+        </map-reduce>
+        <ok to="join-node"/>
+        <error to="kill"/>
+    </action>
+    <join name="join-node" to="join-job"/>
+   <action name="join-job">
+        <map-reduce>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <job-xml>job3.xml</job-xml>
+        </map-reduce>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+  <kill name="kill">
+        <message>Map/Reduce failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+<end name="end"/>
+</workflow-app>
