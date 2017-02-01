@@ -1,10 +1,10 @@
 Create job.properties file, java jar file and workflow.xml file in the local file system and keep in one directory.
 Copy that directory to  HDFS path. 
 Give that jar path in workflow.xml
-/* run an oozie  application */
+**** run an oozie  application ******
 oozie job -oozie http://localhost:11000/oozie {local_file_path}/job.properties –run
-/* For checking information */
+***** For checking information ******
 oozie job -oozie http://localhost:11000/oozie -info job_id
-/* For checking logs */
+***** For checking logs *****
 oozie job -oozie http://localhost:11000/oozie -log job_id
 
