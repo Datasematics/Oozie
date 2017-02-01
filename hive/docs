@@ -1,10 +1,12 @@
 Place the  job.properties file, hive scripts and workflow.xml file in one directory of the local file system.
 Copy it into HDFS path.
 Keep the hive-site.xml in the HDFS path.
-/* run an oozie  application:*/
+***** run an oozie  application:*****
 oozie job -oozie http://localhost:11000/oozie {local_file_path}/job.properties –run   //the local file path of job.properties
-/* For checking information */
+**** For checking information ****
 oozie job -oozie http://localhost:11000/oozie -info job_id
-/*For checking logs*/
+****For checking logs*****
 oozie job -oozie http://localhost:11000/oozie -log job_id
 
+*****KNOWN ISSUES *****
+If lib path doesn't contain appropriate jars then error occures.
